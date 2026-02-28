@@ -3,18 +3,10 @@ pipeline {
 
     stages {
 
-        stage('Build & Test') {
+        stage('Build, Test & Package') {
             steps {
                 dir('demo') {
-                    sh 'mvn clean test'
-                }
-            }
-        }
-
-        stage('Package JAR') {
-            steps {
-                dir('demo') {
-                    sh 'mvn package'
+                    sh 'mvn clean package'
                 }
             }
         }
