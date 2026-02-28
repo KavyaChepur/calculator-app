@@ -3,27 +3,27 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/laxmi916/calculator-app.git'
-            }
-        }
-
         stage('Build & Test') {
             steps {
-                sh 'mvn clean test'
+                dir('demo') {
+                    sh 'mvn clean test'
+                }
             }
         }
 
         stage('Package JAR') {
             steps {
-                sh 'mvn package'
+                dir('demo') {
+                    sh 'mvn package'
+                }
             }
         }
 
         stage('Install to Local Repo') {
             steps {
-                sh 'mvn install'
+                dir('demo') {
+                    sh 'mvn install'
+                }
             }
         }
     }
@@ -31,7 +31,7 @@ pipeline {
     post {
         success {
             echo 'Library JAR packaged and installed successfully'
-            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            archiveArtifacts artifacts: 'demo/target/*.jar', fingerprint: true
         }
         failure {
             echo 'Build failed'
