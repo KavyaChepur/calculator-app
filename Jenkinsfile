@@ -5,17 +5,13 @@ pipeline {
 
         stage('Build, Test & Package') {
             steps {
-                dir('demo') {
-                    sh 'mvn clean package'
-                }
+                sh 'mvn clean package'
             }
         }
 
         stage('Install to Local Repo') {
             steps {
-                dir('demo') {
-                    sh 'mvn install'
-                }
+                sh 'mvn install'
             }
         }
     }
@@ -23,7 +19,7 @@ pipeline {
     post {
         success {
             echo 'Library JAR packaged and installed successfully'
-            archiveArtifacts artifacts: 'demo/target/*.jar', fingerprint: true
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
         }
         failure {
             echo 'Build failed'
